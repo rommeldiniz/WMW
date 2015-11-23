@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>WashMyWhip</title>
+	<link rel="stylesheet" href="themes/WMW.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+function handleLogin() {
+    alert();
+var form = $("#loginForm");    
+//disable the button so we can't resubmit while we wait
+var e = $("#username", form).val();
+var p = $("#password", form).val();
+
+console.log("click");
+if(e != "" && p != "") {
+    //var str = form.serialize();
+    //alert(str);
+    $.ajax({ 
+                     type: 'GET', 
+                     url: 'http://programalandia.com/washmywhip_test/mobile/process_login_user', 
+                     crossDomain: true,
+                     data:  {username: e, password :p},
+                     dataType: 'json', 
+                     async: false,
+
+                     success: function (response){ 
+                        if (response.success) { 
+                            //alert("you're logged in");
+                            window.localStorage["username"] = e;
+                            window.localStorage["password"] = p; 
+                           window.localStorage["UserID"] = response.UserID; 
+                            //window.localStorage["UID"] = data.uid;           
+                            //window.location.replace(index.html);
+                            window.location = "map.html";
+                            
+                        } 
+                        else {
+
+                            alert("Your login failed");
+                            //window.location("main.html");
+                        }
+
+
+                     },
+                     error: function(error){
+                        alert(response.success);
+                        //alert('Could not connect to the database' + error);
+                        window.location = "index.html";
+                    }
+    }); 
+}
+else {
+    //if the email and password is empty
+    alert("You must enter email and password");
+
+}
+return false;
+}
+
+</script>
+</head>
+<body>
+	<div data-role="page" data-url="/jqm/1.4.5/preview.html" tabindex="0" class="ui-page ui-page-active">
+
+		<div data-role="header" data-position="inline">
+			<h1>WashMyWhip</h1>
+		</div>
+	<div data-role="content" data-theme="a">
+    <div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main">
+        <h5 align="center">Android Version</h5>
+        <form id="loginForm" data-ajax="false">  
+        <input type="text" data-theme="a" value="Username" id="username" name="username" class="input" data-form="ui-body-a">
+        <input type="text" data-theme="a" value="Password" id="password" name="password" class="input" data-form="ui-body-a">
+        <button data-theme="a" onclick="handleLogin();return false;" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-btn-icon-left ui-shadow ui-corner-all" type="submit">Login</button>
+        </form>
+    </div>
+    </div>
+     <div data-role="footer" data-position="fixed">
+    <h1>Fixed Footer!</h1>
+</div>
+	</div>
+
+</body>
+</html>

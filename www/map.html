@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>WashMyWhip</title>
+	<link rel="stylesheet" href="themes/WMW.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript">
+ var onSuccess = function(position) {
+                var myLat = position.coords.latitude;
+                var myLong = position.coords.longitude;
+
+                //MAP
+                var mapOptions = {
+                    center: new google.maps.LatLng(myLat, myLong),
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+            var map = new google.maps.Map(document.getElementById("map"),
+                                              mapOptions);
+
+                var marker = new google.maps.Marker({
+                                                    position: new google.maps.LatLng(myLat, myLong),
+                                                    map: map,
+                                                    title:"Hello World!"
+                                                    });
+
+            };
+
+            // onError Callback receives a PositionError object
+            //
+            function onError(error) {
+                alert('code: '    + error.code    + '\n' +
+                      'message: ' + error.message + '\n');
+            }
+
+            navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+    </script>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 500px; }
+    </style>
+  </head>
+  <body>
+  <div data-role="page" id="index">
+       <div data-role="header" data-position="inline">
+			<h1>WashMyWhip</h1>
+		</div>
+
+       <div data-role="content" data-theme="a">
+    <div class="ui-content ui-page-theme-a" data-form="ui-page-theme-a" data-theme="a" role="main">
+            <div id="map" style="height:500px"></div>
+        </div>
+        </div>
+
+         <div data-role="footer" data-position="fixed">
+    <h1>Fixed Footer!</h1>
+</div>
+
+     <script type="text/javascript">
+    	   $('#map').css('height',getRealContentHeight());
+
+function getRealContentHeight() {
+    var header = $.mobile.activePage.find("div[data-role='header']:visible");
+    var footer = $.mobile.activePage.find("div[data-role='footer']:visible");
+    var content = $.mobile.activePage.find("div[data-role='content']:visible:visible");
+    var viewport_height = $(window).height();
+
+    var content_height = viewport_height - header.outerHeight() - footer.outerHeight();
+    if((content.outerHeight() - header.outerHeight() - footer.outerHeight()) <= viewport_height) {
+        content_height -= (content.outerHeight() - content.height());
+    } 
+    return content_height;
+}
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYUem1Fpaoek2VBacJoifCmKDT2VwWYNY">
+    </script>
+  </body>
+</html> 
